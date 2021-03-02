@@ -29,7 +29,7 @@ pipeline {
     stage('Deploy App') {
       steps {
         script {
-          sh "kubectl apply -f CMS.yml"
+          sh "kubectl apply -f https://raw.githubusercontent.com/Sehlor/CMS/master/CMS.yml"
         }
       }
     }
