@@ -29,7 +29,7 @@ pipeline {
     stage('Deploy App') {
       steps {
         script {
-          kubernetesDeploy(configs: "CMS.yml", kubeconfigId: "kubeconfig")
+          sh "kubectl apply -f CMS.yml"
         }
       }
     }
