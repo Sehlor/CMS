@@ -22,7 +22,7 @@ spec:
     spec:
       containers:
         - name: leafex-web-frontend-app
-          image: sehlor/leafexwebfe:latest
+          image: sehlor/cms:latest
           resources:
             requests:
               memory: "1Mi"
