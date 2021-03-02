@@ -29,7 +29,7 @@ pipeline {
     stage('Deploy App') {
       steps {
         script {
-          sh "kubectl apply -f CMS.yml"
+          sh "sudo kubectl apply -f CMS.yml"
         }
       }
     }
