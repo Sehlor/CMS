@@ -2,50 +2,61 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: leafex-cms
+  name: leafex-web-frontend-frontend
 spec:
-  replicas: 5
   selector:
     matchLabels:
-      app: leafex-cms-app
-      version: blue
+      app: leafex-web-frontend-app
+      version: "1"
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 100%
+      maxUnavailable: 0
+    type: RollingUpdate
   template:
     metadata:
-      name: leafex-cms-pod
       labels:
-        app: leafex-cms-app
-        version: blue
+        app: leafex-web-frontend-app
+        version: "1"
     spec:
       containers:
-      - name: leafex-cms-container
-        image: sehlor/CMS:latest
-        imagePullPolicy: Always
-        ports:
-        - containerPort: 80
+        - name: leafex-web-frontend-app
+          image: sehlor/leafexwebfe:latest
+          resources:
+            requests:
+              memory: "1Mi"
+              cpu: "1m"
+            limits:
+              memory: "2024Mi"
+              cpu: "2000m" 
 ---
 apiVersion: v1
-kind: Service 
+kind: Service
 metadata:
-  name: leafex-cms-svc
-  labels:
-    app: leafex-cms-app
+  name: leafex-web-frontend-svc
 spec:
   selector:
-    app: leafex-cms-app
-    version: blue
-  type: NodePort
+    app: leafex-web-frontend-app
   ports:
+  - protocol: TCP
+    name: http
     port: 80
+    targetPort: 80
+  type: NodePort
 ---
-apiVersion: networking.k8s.io/v1beta1
+apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: leafex-cms-virtualhost
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
 spec:
   rules:
   - host: leafex.co
     http:
       paths:
-      - backend:
-          serviceName: leafex-cms-svc
+      - path: /
+        backend:
+          serviceName: leafex-web-frontend-svc
           servicePort: 80
