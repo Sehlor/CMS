@@ -1,4 +1,4 @@
 FROM nginx
 COPY wrapper.sh /
 COPY html /usr/share/nginx/html
-CMD ["chmod +x && ./wrapper.sh"]
+CMD ["chmod +x ./wrapper.sh && ./wrapper.sh"]
