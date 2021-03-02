@@ -10,7 +10,7 @@ pipeline {
 	stage("Build image") {
 		steps {
 			script {
-				myapp = docker.build("sehlor/CMS:${env.BUILD_ID}")
+				myapp = docker.build("sehlor/cms:${env.BUILD_ID}")
 			}
 		}
 	}
@@ -33,7 +33,5 @@ pipeline {
         }
       }
     }
-
   }
-
 }
